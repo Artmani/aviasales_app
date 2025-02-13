@@ -1,0 +1,51 @@
+.filter {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 20px;
+  width: 100%;
+  max-width: 232px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #4a4a4a;
+  margin-bottom: 20px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f1fcff;
+  }
+
+  input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  span {
+    line-height: 20px;
+  }
+}
