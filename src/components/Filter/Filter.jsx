@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleFilter, toggleAllFilters } from '@/store/reducers/filters/filtersSlice'
+import { toggleFilter, toggleAllFilters } from '/src/store/reducers/filters/filtersSlice.js'
 import styles from './Filter.module.scss'
 
-function Filter() {
+const Filter = () => {
   const dispatch = useDispatch()
   const filters = useSelector((state) => state.filters)
 
