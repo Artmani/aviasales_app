@@ -1,8 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { setSort } from '../../../../../src/store/reducers/sort/sortSlice.js'
-
+import { setSort } from '@/store/reducers/sort/sortSlice'
 import styles from './Tabs.module.scss'
 
 function Tabs() {
