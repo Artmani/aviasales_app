@@ -14,14 +14,12 @@ export const fetchTickets = createAsyncThunk(
     async (searchId, { dispatch }) => {
         let stop = false
         let allTickets = []
-        // Счетчик для генерации уникальных id, если их нет
         let uniqueIdCounter = 0
 
         while (!stop) {
             try {
                 const response = await axios.get(`https://aviasales-test-api.kata.academy/tickets?searchId=${searchId}`)
                 const newTickets = response.data.tickets.map((ticket) => {
-                    // Если id отсутствует, назначаем его
                     if (ticket.id === undefined) {
                         return { ...ticket, id: uniqueIdCounter++ }
                     }
@@ -29,11 +27,9 @@ export const fetchTickets = createAsyncThunk(
                 })
                 allTickets = [...allTickets, ...newTickets]
                 stop = response.data.stop
-                // Обновляем state с полученными билетами
                 dispatch(setTickets(allTickets))
             } catch (error) {
                 console.error('Error fetching tickets:', error)
-                // При ошибке ждем 500 мс и пробуем снова
                 await new Promise((resolve) => setTimeout(resolve, 500))
             }
         }
@@ -48,7 +44,7 @@ const ticketsSlice = createSlice({
         tickets: [],
         status: 'idle',
         error: null,
-        allLoaded: false, // Флаг, что все данные загружены
+        allLoaded: false,
     },
     reducers: {
         setTickets(state, action) {

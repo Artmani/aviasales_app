@@ -58,7 +58,6 @@ function App() {
     const { error, allLoaded } = useSelector((state) => state.tickets)
     const tickets = useSelector(selectSortedTickets)
 
-    // Состояние для количества отображаемых билетов
     const [visibleCount, setVisibleCount] = useState(5)
 
     useEffect(() => {
