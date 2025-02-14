@@ -38,6 +38,12 @@
   gap: 20px;
 }
 
+.noFlights {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
 .loading, .error, .empty {
   padding: 20px;
   text-align: center;
@@ -70,4 +76,5 @@
   &:hover {
     background-color: #1976d2;
   }
+
 }

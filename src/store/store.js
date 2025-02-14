@@ -10,6 +10,6 @@ export const store = configureStore({
     sort: sortReducer,
     tickets: ticketsReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk), // Используем thunk
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
   devTools: process.env.NODE_ENV !== 'production',
 })

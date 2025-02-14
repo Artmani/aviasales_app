@@ -16,8 +16,8 @@ const filtersSlice = createSlice({
       state[action.payload] = !state[action.payload]
       if (action.payload !== 'all') {
         state.all = Object.keys(state)
-          .filter((key) => key !== 'all')
-          .every((key) => state[key])
+            .filter((key) => key !== 'all')
+            .every((key) => state[key])
       }
     },
     toggleAllFilters(state) {

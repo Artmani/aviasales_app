@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Spin } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons'
 import { fetchSearchId, fetchTickets } from './store/reducers/tickets/ticketsSlice'
 import Filter from './components/Filter/Filter'
 import Tabs from './components/Tabs/Tabs'
@@ -13,17 +13,17 @@ const selectFilteredTickets = createSelector(
     (state) => state.tickets.tickets,
     (state) => state.filters,
     (tickets, filters) => {
-        return tickets.filter((ticket) => {
-            const stops = ticket.segments[0].stops.length
-            return (
-                (filters.all || filters.noStops || filters.oneStop || filters.twoStops || filters.threeStops) &&
-                (filters.all ||
-                    (filters.noStops && stops === 0) ||
-                    (filters.oneStop && stops === 1) ||
-                    (filters.twoStops && stops === 2) ||
-                    (filters.threeStops && stops === 3))
-            )
-        })
+        if (filters.all) {
+            return tickets
+        }
+        const allowedStops = []
+        if (filters.noStops) allowedStops.push(0)
+        if (filters.oneStop) allowedStops.push(1)
+        if (filters.twoStops) allowedStops.push(2)
+        if (filters.threeStops) allowedStops.push(3)
+        return tickets.filter((ticket) =>
+            ticket.segments.every((segment) => allowedStops.includes(segment.stops.length))
+        )
     }
 )
 
@@ -57,7 +57,6 @@ function App() {
     const dispatch = useDispatch()
     const { error, allLoaded } = useSelector((state) => state.tickets)
     const tickets = useSelector(selectSortedTickets)
-
     const [visibleCount, setVisibleCount] = useState(5)
 
     useEffect(() => {
@@ -88,19 +87,30 @@ function App() {
                 <main className={styles.main}>
                     <Tabs />
                     <div className={styles.tickets}>
-                        {tickets.slice(0, visibleCount).map((ticket) => (
-                            <TicketCard key={ticket.id} ticket={ticket} />
-                        ))}
+                        {tickets.length > 0 ? (
+                            tickets.slice(0, visibleCount).map((ticket) => (
+                                <TicketCard key={ticket.id} ticket={ticket} />
+                            ))
+                        ) : (
+                            <p className={styles.noFlights}>
+                                Рейсов, подходящих под заданные фильтры, не найдено!
+                            </p>
+                        )}
                     </div>
-                    {!allLoaded && <Spin indicator={
-                                    <LoadingOutlined
-                                        style={{
-                                            fontSize: 48,
-                                        }}
-                                        spin
-                                    />}
-                                         size="large" />}
-                    {visibleCount < tickets.length && (
+                    {!allLoaded && (
+                        <Spin
+                            indicator={
+                                <LoadingOutlined
+                                    style={{
+                                        fontSize: 48,
+                                    }}
+                                    spin
+                                />
+                            }
+                            size="large"
+                        />
+                    )}
+                    {visibleCount < tickets.length && tickets.length > 0 && (
                         <button type="button" className={styles.showMore} onClick={handleShowMore}>
                             ПОКАЗАТЬ ЕЩЕ 5 БИЛЕТОВ!
                         </button>
